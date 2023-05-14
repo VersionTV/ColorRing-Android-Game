@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class topKontrol : MonoBehaviour
 {
     [SerializeField]
-    Text scoreText;
+    Text scoreText,recordText;
     public static int score = 0;
     Rigidbody2D rb;
     public float ziplamaKuvveti = 3f;
@@ -17,10 +17,13 @@ public class topKontrol : MonoBehaviour
     public Color topunRengi;
     public Color turkuaz, sari, mor, pembe;
     public GameObject halka, renktekeri;
+    int bestScore =0;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        bestScore = PlayerPrefs.GetInt("BestS");
+        recordText.text = "Record : " + bestScore;
     }
     private void Start()
     {
@@ -57,6 +60,11 @@ public class topKontrol : MonoBehaviour
         }
        if(collision.tag!=mevcutRenk && collision.tag != "PuanArttirici" && collision.tag != "RenkTekeri")
         {
+            if (score > bestScore)
+            {
+                PlayerPrefs.SetInt("BestS", score);
+            }
+            
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         if (collision.tag == "PuanArttirici")
@@ -65,7 +73,14 @@ public class topKontrol : MonoBehaviour
             scoreText.text = "Score: " + score;
             Destroy(collision.gameObject);
             Instantiate(halka, new Vector3(transform.position.x, transform.position.y + 8f, transform.position.z),Quaternion.identity);
+
         }
+        if ((collision.tag == "die"))
+        {
+            score = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
     }
     void RastgeleRenkBelirle()
     {
