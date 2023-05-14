@@ -8,7 +8,11 @@ using UnityEngine.UI;
 public class topKontrol : MonoBehaviour
 {
     [SerializeField]
-    Text scoreText,recordText;
+    Text scoreText,recordText,tapText;
+    [SerializeField]
+    Image countdown;
+    [SerializeField]
+    Animator ani;
     public static int score = 0;
     Rigidbody2D rb;
     public float ziplamaKuvveti = 3f;
@@ -18,6 +22,8 @@ public class topKontrol : MonoBehaviour
     public Color turkuaz, sari, mor, pembe;
     public GameObject halka, renktekeri;
     int bestScore =0;
+    float timer = 3f;
+    bool isTap = false;
 
     private void Awake()
     {
@@ -28,11 +34,28 @@ public class topKontrol : MonoBehaviour
     private void Start()
     {
         RastgeleRenkBelirle();
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
         scoreText.text = "Score: " + score;
     }
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(isTap)
+        {
+            
+            ani.SetTrigger("start");
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                //oyun basliyo
+                countdown.enabled = false;
+                rb.constraints = RigidbodyConstraints2D.None;
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
         {
             basildimi = true;
             
@@ -109,6 +132,11 @@ public class topKontrol : MonoBehaviour
 
         }
         GetComponent<SpriteRenderer>().color = topunRengi;
+    }
+    public void TaptoPlay()
+    {
+        isTap=true;
+        tapText.enabled = false;
     }
     
 }
