@@ -13,6 +13,8 @@ public class topKontrol : MonoBehaviour
     Image countdown;
     [SerializeField]
     Animator ani;
+    [SerializeField]
+    GameObject hintpanel;
     public static int score = 0;
     Rigidbody2D rb;
     public float ziplamaKuvveti = 3f;
@@ -24,6 +26,7 @@ public class topKontrol : MonoBehaviour
     int bestScore =0;
     float timer = 3f;
     bool isTap = false;
+    bool hintEnable=false;
 
     private void Awake()
     {
@@ -138,5 +141,22 @@ public class topKontrol : MonoBehaviour
         isTap=true;
         tapText.enabled = false;
     }
-    
+    public void HintMenu()
+    {
+        if(!hintEnable)
+        {
+            hintEnable = !hintEnable;
+            hintpanel.SetActive(hintEnable);
+            
+
+
+
+        }
+        else
+        {
+            hintpanel.SetActive(false);
+            hintEnable = !hintEnable;
+        }
+        
+    }
 }
