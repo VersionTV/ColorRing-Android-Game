@@ -90,7 +90,7 @@ public class topKontrol : MonoBehaviour
             {
                 PlayerPrefs.SetInt("BestS", score);
             }
-            
+            score = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         if (collision.tag == "PuanArttirici")
